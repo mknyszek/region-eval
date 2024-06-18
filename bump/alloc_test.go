@@ -100,7 +100,7 @@ func bench(b *testing.B, size uintptr, benchReset bool) {
 		cs.Stop()
 		b.StopTimer()
 
-		//reportPerByte(b, size, cs)
+		reportPerByte(b, size, cs)
 
 		// Confirm that no automatic GCs happened during the benchmark.
 		runtime.ReadMemStats(&mstats)
