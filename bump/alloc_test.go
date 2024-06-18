@@ -24,18 +24,33 @@ func BenchmarkAlloc(b *testing.B) {
 	ballast = make([]byte, llcBytes)
 	defer func() { ballast = nil }()
 
-	bench(b, 8)
-	bench(b, 16)
-	bench(b, 32)
-	bench(b, 64)
-	bench(b, 128)
-	bench(b, 256)
-	bench(b, 512)
-	bench(b, 1024)
-	bench(b, 2048)
+	bench(b, 8, false)
+	bench(b, 16, false)
+	bench(b, 32, false)
+	bench(b, 64, false)
+	bench(b, 128, false)
+	bench(b, 256, false)
+	bench(b, 512, false)
+	bench(b, 1024, false)
+	bench(b, 2048, false)
 }
 
-func bench(b *testing.B, size uintptr) {
+func BenchmarkAllocAndReset(b *testing.B) {
+	ballast = make([]byte, llcBytes)
+	defer func() { ballast = nil }()
+
+	bench(b, 8, true)
+	bench(b, 16, true)
+	bench(b, 32, true)
+	bench(b, 64, true)
+	bench(b, 128, true)
+	bench(b, 256, true)
+	bench(b, 512, true)
+	bench(b, 1024, true)
+	bench(b, 2048, true)
+}
+
+func bench(b *testing.B, size uintptr, benchReset bool) {
 	header := rand.Uint64()
 
 	b.Run(fmt.Sprintf("bytes=%d", size), func(b *testing.B) {
@@ -58,9 +73,18 @@ func bench(b *testing.B, size uintptr) {
 			}
 			total += 8 + size
 			if total > uintptr(len(ballast)/2) {
+				if benchReset {
+					// Reset the allocator as part of the benchmark.
+					a.Reset()
+				}
+
 				// Run GC manually so we can exclude GC time from the benchmark results.
 				cs.Stop()
 				b.StopTimer()
+				if !benchReset {
+					// Reset the allocator now.
+					a.Reset()
+				}
 				total = 0
 				runtime.GC()
 				startGCs++
@@ -72,7 +96,7 @@ func bench(b *testing.B, size uintptr) {
 		cs.Stop()
 		b.StopTimer()
 
-		reportPerByte(b, size, cs)
+		//reportPerByte(b, size, cs)
 
 		// Confirm that no automatic GCs happened during the benchmark.
 		runtime.ReadMemStats(&mstats)

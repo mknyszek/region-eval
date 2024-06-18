@@ -45,6 +45,8 @@ outerLoop:
 				a.overflow = NewBlock(0)
 			}
 		}
+		a.main.next = a.full
+		a.full = a.main
 		a.main = a.getBlock()
 	}
 	*(*uint64)(addr) = header
@@ -52,12 +54,21 @@ outerLoop:
 	return addr
 }
 
+func (a *Allocator) Reset() {
+	for a.full != nil {
+		a.full.Reset()
+		a.existing = append(a.existing, a.full)
+		a.full = a.full.next
+	}
+}
+
 func (a *Allocator) getBlock() *Block {
-	if len(a.existing) == 0 {
+	n := len(a.existing)
+	if n == 0 {
 		return NewBlock(0)
 	}
-	b := a.existing[0]
-	a.existing = a.existing[1:]
+	b := a.existing[n-1]
+	a.existing = a.existing[:n-1]
 	return b
 }
 
@@ -124,7 +135,9 @@ func (b *Block) refill() bool {
 }
 
 func (b *Block) Reset() {
+	// First two lines are reserved.
 	b.lineAlloc = b.lineMark | 0b11
+	b.cursor, b.limit = 0, 0
 }
 
 func alignUp(x, align uintptr) uintptr {
