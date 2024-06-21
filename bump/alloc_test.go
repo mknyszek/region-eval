@@ -6,7 +6,6 @@ package bump_test
 
 import (
 	"fmt"
-	"math/rand/v2"
 	"runtime"
 	"testing"
 
@@ -21,42 +20,31 @@ var sink any
 var alwaysFalse bool
 
 func BenchmarkAlloc(b *testing.B) {
-	// We use a ballast rather than SetMemoryLimit to get a typical GC sawtooth
-	// so that we in turn get "typical" reuse of swept memory. It *probably*
-	// doesn't matter, but this way we don't have to worry about triggering
-	// strange behavior from a near-empty post-GC heap.
-	ballast = make([]byte, llcBytes)
-	defer func() { ballast = nil }()
+	for _, ptrs := range []bool{false, true} {
+		for _, reset := range []bool{false, true} {
+			b.Run(fmt.Sprintf("ptrs=%t/reset=%t", ptrs, reset), func(b *testing.B) {
+				// We use a ballast rather than SetMemoryLimit to get a typical GC sawtooth
+				// so that we in turn get "typical" reuse of swept memory. It *probably*
+				// doesn't matter, but this way we don't have to worry about triggering
+				// strange behavior from a near-empty post-GC heap.
+				ballast = make([]byte, llcBytes)
+				defer func() { ballast = nil }()
 
-	bench(b, 8, false)
-	bench(b, 16, false)
-	bench(b, 32, false)
-	bench(b, 64, false)
-	bench(b, 128, false)
-	bench(b, 256, false)
-	bench(b, 512, false)
-	bench(b, 1024, false)
-	bench(b, 2048, false)
+				bench(b, 8, ptrs, reset)
+				bench(b, 16, ptrs, reset)
+				bench(b, 32, ptrs, reset)
+				bench(b, 64, ptrs, reset)
+				bench(b, 128, ptrs, reset)
+				bench(b, 256, ptrs, reset)
+				bench(b, 512, ptrs, reset)
+				bench(b, 1024, ptrs, reset)
+				bench(b, 2048, ptrs, reset)
+			})
+		}
+	}
 }
 
-func BenchmarkAllocAndReset(b *testing.B) {
-	ballast = make([]byte, llcBytes)
-	defer func() { ballast = nil }()
-
-	bench(b, 8, true)
-	bench(b, 16, true)
-	bench(b, 32, true)
-	bench(b, 64, true)
-	bench(b, 128, true)
-	bench(b, 256, true)
-	bench(b, 512, true)
-	bench(b, 1024, true)
-	bench(b, 2048, true)
-}
-
-func bench(b *testing.B, size uintptr, benchReset bool) {
-	header := rand.Uint64()
-
+func bench(b *testing.B, size uintptr, ptrs, benchReset bool) {
 	b.Run(fmt.Sprintf("bytes=%d", size), func(b *testing.B) {
 		cs := perfbench.Open(b)
 
@@ -69,9 +57,15 @@ func bench(b *testing.B, size uintptr, benchReset bool) {
 		b.ResetTimer()
 		cs.Reset()
 
+		ptrBytes := uintptr(0)
+		if ptrs {
+			ptrBytes = 8
+		}
+		ft := bump.NewFakeType(size, ptrBytes)
+
 		var total uintptr
 		for range b.N {
-			x := a.Make(size, header)
+			x := a.Make(size, ft)
 			if alwaysFalse {
 				sink = x
 			}

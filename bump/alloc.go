@@ -27,11 +27,16 @@ func NewAllocator(blocks []*Block) *Allocator {
 	return &Allocator{existing: blocks}
 }
 
-func (a *Allocator) Make(size uintptr, header uint64) unsafe.Pointer {
+func (a *Allocator) Make(size uintptr, typ *FakeType) unsafe.Pointer {
 	if a.main == nil {
 		a.main = a.getBlock()
 	}
-	fullSize := alignUp(size+headerSize, minAlign)
+	hasHeader := typ.ptrs != 0
+	fullSize := size
+	if hasHeader {
+		fullSize += headerSize
+	}
+	fullSize = alignUp(fullSize, minAlign)
 	var addr unsafe.Pointer
 outerLoop:
 	for {
@@ -53,7 +58,9 @@ outerLoop:
 		a.full = a.main
 		a.main = a.getBlock()
 	}
-	*(*uint64)(addr) = header
+	if hasHeader {
+		*(*uint64)(addr) = uint64(uintptr(unsafe.Pointer(typ)))
+	}
 	memclrNoHeapPointers(unsafe.Add(addr, headerSize), size)
 	return addr
 }
@@ -150,3 +157,20 @@ func alignUp(x, align uintptr) uintptr {
 
 //go:linkname memclrNoHeapPointers runtime.memclrNoHeapPointers
 func memclrNoHeapPointers(addr unsafe.Pointer, size uintptr)
+
+type FakeType struct {
+	_    [7]uintptr
+	size uintptr
+	ptrs uintptr
+}
+
+var allFakeTypes []*FakeType
+
+func NewFakeType(size, ptrs uintptr) *FakeType {
+	typ := &FakeType{
+		size: size,
+		ptrs: ptrs,
+	}
+	allFakeTypes = append(allFakeTypes, typ)
+	return typ
+}
