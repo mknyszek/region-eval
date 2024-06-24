@@ -2,11 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package bump
+package cpusim
 
 import (
 	"math/bits"
 	"unsafe"
+
+	"github.com/mknyszek/region-eval/cpusim/bitmath"
 )
 
 const (
@@ -14,7 +16,16 @@ const (
 	lineSize   = 128
 	headerSize = unsafe.Sizeof(uint64(0))
 	minAlign   = 8
+	BitmapSize = BlockSize / minAlign / 8
 )
+
+func init() {
+	if BitmapSize != lineSize {
+		panic("each block bitmap must fit exactly in one line")
+	}
+}
+
+type Pointer unsafe.Pointer
 
 type Allocator struct {
 	main     *Block
@@ -27,16 +38,13 @@ func NewAllocator(blocks []*Block) *Allocator {
 	return &Allocator{existing: blocks}
 }
 
-func (a *Allocator) Make(size uintptr, typ *FakeType) unsafe.Pointer {
+func (a *Allocator) Make(size uintptr, typ *FakeType) Pointer {
 	if a.main == nil {
 		a.main = a.getBlock()
 	}
-	hasHeader := typ.ptrs != 0
 	fullSize := size
-	if hasHeader {
-		fullSize += headerSize
-	}
-	fullSize = alignUp(fullSize, minAlign)
+	fullSize += headerSize
+	fullSize = bitmath.AlignUp(fullSize, minAlign)
 	var addr unsafe.Pointer
 outerLoop:
 	for {
@@ -58,11 +66,9 @@ outerLoop:
 		a.full = a.main
 		a.main = a.getBlock()
 	}
-	if hasHeader {
-		*(*uint64)(addr) = uint64(uintptr(unsafe.Pointer(typ)))
-	}
+	*(*uint64)(addr) = uint64(uintptr(unsafe.Pointer(typ)))
 	memclrNoHeapPointers(unsafe.Add(addr, headerSize), size)
-	return addr
+	return Pointer(unsafe.Add(addr, headerSize))
 }
 
 func (a *Allocator) Reset() {
@@ -83,20 +89,48 @@ func (a *Allocator) getBlock() *Block {
 	return b
 }
 
+func (a *Allocator) BlockOf(ptr Pointer) *Block {
+	if a.main.Contains(ptr) {
+		return a.main
+	}
+	if a.overflow.Contains(ptr) {
+		return a.overflow
+	}
+	f := a.full
+	for f != nil {
+		if f.Contains(ptr) {
+			return f
+		}
+		f = f.next
+	}
+	return nil
+}
+
 type Block struct {
 	cursor, limit uintptr
 	lineAlloc     uint64
-	lineMark      uint64
 	next          *Block
 	data          *[BlockSize]byte
 }
 
 func NewBlock(lines uint64) *Block {
 	blk := new(Block)
-	blk.lineMark = lines
 	blk.data = new([BlockSize]byte)
+	d := (*BlockMeta)(unsafe.Pointer(&blk.data[0]))
+	d.LineEscape = lines
 	blk.Reset()
 	return blk
+}
+
+func (b *Block) Contains(ptr Pointer) bool {
+	s := uintptr(unsafe.Pointer(&b.data[0]))
+	e := uintptr(unsafe.Pointer(&b.data[len(b.data)-1]))
+	p := uintptr(ptr)
+	return s <= p && p <= e
+}
+
+func (b *Block) Base() uintptr {
+	return uintptr(unsafe.Pointer(&b.data[0]))
 }
 
 func (b *Block) tryAlloc(size uintptr) unsafe.Pointer {
@@ -111,8 +145,8 @@ func (b *Block) tryAllocFast(size uintptr) unsafe.Pointer {
 	n := c + size
 	if n < b.limit {
 		b.cursor = n
-		wi := (c - uintptr(unsafe.Pointer(b.data))) / minAlign
-		b.data[128+wi/8] |= 1 << (wi % 8)
+		wi := (c - b.Base()) / minAlign
+		b.data[BitmapSize+wi/8] |= 1 << (wi % 8)
 		return unsafe.Pointer(c)
 	}
 	return nil
@@ -142,35 +176,49 @@ func (b *Block) refill() bool {
 	b.lineAlloc = lineAlloc | (((1 << n) - 1) << i)
 	b.cursor = uintptr(unsafe.Pointer(b.data)) + uintptr(i)*lineSize
 	b.limit = b.cursor + uintptr(n)*lineSize
+	if i == 2 {
+		b.cursor += 8 // Room for LineEscape.
+	}
 	return true
 }
 
 func (b *Block) Reset() {
 	// First two lines are reserved.
-	b.lineAlloc = b.lineMark | 0b11
+	d := b.Meta()
+	b.lineAlloc = d.LineEscape | 0b11
 	b.cursor, b.limit = 0, 0
+
+	// Clear ObjBits.
+
+	// Make the math easier by reinterpreting ObjBits as 16-bit chunks.
+	// Only works on little-endian.
+	ObjBits := (*[BitmapSize / 2]uint16)(unsafe.Pointer(&d.ObjBits[0]))
+
+	clearIter := b.lineAlloc
+	for clearIter != 0 {
+		i := bits.TrailingZeros64(^clearIter)
+		clearIter >>= i
+		n := bits.TrailingZeros64(clearIter)
+		if n == 64 {
+			n -= i
+		}
+		toClear := ObjBits[i : i+n]
+		for i := range toClear {
+			toClear[i] = 0
+		}
+		clearIter >>= n
+	}
 }
 
-func alignUp(x, align uintptr) uintptr {
-	return (x + align - 1) &^ (align - 1)
+func (b *Block) Meta() *BlockMeta {
+	return (*BlockMeta)(unsafe.Pointer(&b.data[0]))
+}
+
+type BlockMeta struct {
+	EscBits    [BitmapSize / 8]uint64
+	ObjBits    [BitmapSize / 8]uint64
+	LineEscape uint64
 }
 
 //go:linkname memclrNoHeapPointers runtime.memclrNoHeapPointers
 func memclrNoHeapPointers(addr unsafe.Pointer, size uintptr)
-
-type FakeType struct {
-	_    [7]uintptr
-	size uintptr
-	ptrs uintptr
-}
-
-var allFakeTypes []*FakeType
-
-func NewFakeType(size, ptrs uintptr) *FakeType {
-	typ := &FakeType{
-		size: size,
-		ptrs: ptrs,
-	}
-	allFakeTypes = append(allFakeTypes, typ)
-	return typ
-}

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package bump_test
+package cpusim_test
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/aclements/go-perfevent/perfbench"
-	"github.com/mknyszek/region-eval/bump"
+	"github.com/mknyszek/region-eval/cpusim"
 )
 
 const llcBytes = 16 << 20 // LLC size or larger
@@ -30,21 +30,21 @@ func BenchmarkAlloc(b *testing.B) {
 				ballast = make([]byte, llcBytes)
 				defer func() { ballast = nil }()
 
-				bench(b, 8, ptrs, reset)
-				bench(b, 16, ptrs, reset)
-				bench(b, 32, ptrs, reset)
-				bench(b, 64, ptrs, reset)
-				bench(b, 128, ptrs, reset)
-				bench(b, 256, ptrs, reset)
-				bench(b, 512, ptrs, reset)
-				bench(b, 1024, ptrs, reset)
-				bench(b, 2048, ptrs, reset)
+				benchAlloc(b, 8, ptrs, reset)
+				benchAlloc(b, 16, ptrs, reset)
+				benchAlloc(b, 32, ptrs, reset)
+				benchAlloc(b, 64, ptrs, reset)
+				benchAlloc(b, 128, ptrs, reset)
+				benchAlloc(b, 256, ptrs, reset)
+				benchAlloc(b, 512, ptrs, reset)
+				benchAlloc(b, 1024, ptrs, reset)
+				benchAlloc(b, 2048, ptrs, reset)
 			})
 		}
 	}
 }
 
-func bench(b *testing.B, size uintptr, ptrs, benchReset bool) {
+func benchAlloc(b *testing.B, size uintptr, ptrs, benchReset bool) {
 	b.Run(fmt.Sprintf("bytes=%d", size), func(b *testing.B) {
 		cs := perfbench.Open(b)
 
@@ -52,16 +52,15 @@ func bench(b *testing.B, size uintptr, ptrs, benchReset bool) {
 		runtime.ReadMemStats(&mstats)
 		startGCs := mstats.NumGC
 
-		a := bump.NewAllocator(nil)
+		a := cpusim.NewAllocator(nil)
+		ppct := 0
+		if ptrs {
+			ppct = 100
+		}
+		ft := makeFakeType(size, ppct)
 
 		b.ResetTimer()
 		cs.Reset()
-
-		ptrBytes := uintptr(0)
-		if ptrs {
-			ptrBytes = 8
-		}
-		ft := bump.NewFakeType(size, ptrBytes)
 
 		var total uintptr
 		for range b.N {
