@@ -41,10 +41,11 @@ func MarkEscaped(a Pointer) {
 		objIdx = bitmath.AlignDown(objIdx, 64) + 64 - n - 1
 		objStart = Pointer(unsafe.Pointer(base + objIdx*minAlign))
 	}
-	typ := *(**FakeType)(objStart)
+	header := *(*uint64)(objStart)
+	size := uintptr(header>>48) * 8
 
 	// Set the escaped bits.
-	objEndIdx := objIdx + typ.Size_/minAlign
+	objEndIdx := objIdx + size/minAlign
 	if objIdx/64 == objEndIdx/64 {
 		// Fast path: small object that doesn't cross a bitmap word boundary.
 		d.EscBits[objIdx/64] |= ((uint64(1) << (objEndIdx - objIdx + 1)) - 1) << (objIdx % 64)
@@ -62,17 +63,18 @@ func MarkEscaped(a Pointer) {
 
 	// Set the line escape bits.
 	objLine := (uintptr(a) - base) / lineSize
-	objEndLine := (uintptr(a) + typ.Size_ - base) / lineSize
+	objEndLine := (uintptr(a) + size - base) / lineSize
 	d.LineEscape |= uint64(1) << (objEndLine - objLine) << objLine
 
 	// Nothing to transitively mark escaped.
+	typ := (*FakeType)(unsafe.Pointer(uintptr(header & ((uint64(1) << 48) - 1))))
 	if typ.PtrBytes == 0 {
 		return
 	}
 
 	// Iterate over the object's pointers and transitively mark anything escaped.
 	addr := uintptr(objStart) + headerSize
-	limit := addr + typ.Size_
+	limit := addr + size
 	tp := typePointers{elem: addr, addr: addr, mask: readUintptr(typ.GCData), typ: typ}
 	for {
 		var addr uintptr

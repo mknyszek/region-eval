@@ -66,7 +66,7 @@ outerLoop:
 		a.full = a.main
 		a.main = a.getBlock()
 	}
-	*(*uint64)(addr) = uint64(uintptr(unsafe.Pointer(typ)))
+	*(*uint64)(addr) = uint64(uintptr(unsafe.Pointer(typ))) | (uint64(size/8) << 48)
 	memclrNoHeapPointers(unsafe.Add(addr, headerSize), size)
 	return Pointer(unsafe.Add(addr, headerSize))
 }
