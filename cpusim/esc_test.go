@@ -105,11 +105,15 @@ func makeFakeType(size uintptr, ptrPercent int) *cpusim.FakeType {
 		ptrBytes = bitmath.AlignDown(size, 8)
 		gcdata = make([]byte, bitmath.AlignUp(bitmath.AlignUp(ptrBytes/8, 8)/8, 8))
 		nwords := size / 8
+		invert := ptrPercent > 50 && ptrPercent != 100
+		if invert {
+			ptrPercent = 100 - ptrPercent
+		}
 		nptrs := nwords * uintptr(ptrPercent) / 100
 		spacing := nwords / nptrs
 		for i := uintptr(0); i < size; i += 8 {
 			j := i / 8
-			if j%spacing == 0 {
+			if (!invert && j%spacing == 0) || (invert && j%spacing != 0) {
 				gcdata[j/8] |= uint8(1) << (j % 8)
 			}
 		}
