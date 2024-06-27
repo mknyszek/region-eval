@@ -219,15 +219,28 @@ func benchWriteBarrier(b *testing.B, preEscPercent int, shuffle bool) {
 	if err != nil {
 		b.Fatal(err)
 	}
-	cpusim.MinRegionAddress = uintptr(unsafe.Pointer(&data[0]))
+	addr := uintptr(unsafe.Pointer(&data[0]))
+	cpusim.MinRegionAddress = addr
 	defer func() {
 		syscall.Munmap(data)
 		cpusim.MinRegionAddress = 0
 	}()
 
+	// The cpusim code assumes BlockSize-aligned memory, but mmap may not return memory with sufficient alignment.
+	// Since we have plenty of blocks, align it up ourselves.
+	alignedData := data
+	if bitmath.AlignDown(addr, cpusim.BlockSize) != addr {
+		offset := bitmath.AlignUp(addr, cpusim.BlockSize) - addr
+		alignedData = data[offset:]
+	}
+
+	// Split the mmap'd data into blocks.
 	var blocks []*cpusim.Block
-	for i := 0; i < len(data); i += cpusim.BlockSize {
-		blocks = append(blocks, cpusim.NewBlockFromExisting(0, (*[cpusim.BlockSize]byte)(data[i:i+cpusim.BlockSize])))
+	for i := 0; i < len(alignedData); i += cpusim.BlockSize {
+		if len(alignedData[i:]) < cpusim.BlockSize {
+			break
+		}
+		blocks = append(blocks, cpusim.NewBlockFromExisting(0, (*[cpusim.BlockSize]byte)(alignedData[i:i+cpusim.BlockSize])))
 	}
 
 	const fp = 64 << 10
