@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"runtime"
+	"syscall"
 	"testing"
+	"unsafe"
 
 	"github.com/aclements/go-perfevent/perfbench"
 	"github.com/mknyszek/region-eval/cpusim"
@@ -198,4 +200,98 @@ func testMarkEscaped(t *testing.T, size, offset uintptr, ptrs bool) {
 
 func isSet(b *[cpusim.BitmapSize / 8]uint64, i uintptr) bool {
 	return b[i/64]&(uint64(1)<<(i%64)) != 0
+}
+
+func BenchmarkWriteBarrier(b *testing.B) {
+	for _, shuffle := range []bool{false, true} {
+		for _, preEscPercent := range []int{0, 1, 10, 50, 100} {
+			b.Run(fmt.Sprintf("shuffle=%t/percentPreEscaped=%d", shuffle, preEscPercent), func(b *testing.B) {
+				benchWriteBarrier(b, preEscPercent, shuffle)
+			})
+		}
+	}
+}
+
+func benchWriteBarrier(b *testing.B, preEscPercent int, shuffle bool) {
+	cs := perfbench.Open(b)
+
+	data, err := syscall.Mmap(-1, 0, int(1<<30), syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_ANON|syscall.MAP_PRIVATE)
+	if err != nil {
+		b.Fatal(err)
+	}
+	cpusim.MinRegionAddress = uintptr(unsafe.Pointer(&data[0]))
+	defer func() {
+		syscall.Munmap(data)
+		cpusim.MinRegionAddress = 0
+	}()
+
+	var blocks []*cpusim.Block
+	for i := 0; i < len(data); i += cpusim.BlockSize {
+		blocks = append(blocks, cpusim.NewBlockFromExisting(0, (*[cpusim.BlockSize]byte)(data[i:i+cpusim.BlockSize])))
+	}
+
+	const fp = 64 << 10
+	const sz = 64
+	const n = fp / sz
+	size := uintptr(sz) - 8 // Total size is 64 for each alloc.
+	a := cpusim.NewAllocator(blocks)
+	ft := makeFakeType(size, 100)
+
+	// Allocate a whole bunch of things to escape.
+	r := rand.New(rand.NewPCG(0, 0))
+	escapes := make([]unsafe.Pointer, 0, 2*n)
+	for range cap(escapes) {
+		x := a.Make(size, ft)
+		if alwaysFalse {
+			sink = x
+		}
+		if preEscPercent != 0 && r.IntN(100/preEscPercent) == 0 {
+			cpusim.MarkEscaped(x)
+		}
+		escapes = append(escapes, unsafe.Pointer(x))
+	}
+
+	// Shuffle up the pointers so we get plenty of cache misses.
+	if shuffle {
+		r.Shuffle(len(escapes), func(i, j int) {
+			escapes[i], escapes[j] = escapes[j], escapes[i]
+		})
+	}
+	srcs := make([]unsafe.Pointer, 0, n)
+	dsts := make([]unsafe.Pointer, 0, n)
+	for i, x := range escapes {
+		if i%2 == 0 {
+			srcs = append(srcs, x)
+		} else {
+			dsts = append(dsts, x)
+		}
+	}
+
+	// Run a GC now to avoid having one trigger later from some small allocation.
+	runtime.GC()
+
+	var mstats runtime.MemStats
+	runtime.ReadMemStats(&mstats)
+	startGCs := mstats.NumGC
+
+	b.ResetTimer()
+	cs.Reset()
+
+	for i := range b.N {
+		ptr, dst := srcs[i%n], dsts[i%n]
+		cpusim.RegionWriteBarrierFastPath(ptr, dst)
+		*(*uintptr)(dst) = uintptr(ptr)
+	}
+
+	cs.Stop()
+	b.StopTimer()
+
+	reportPerByte(b, size, cs)
+
+	// Confirm that no automatic GCs happened during the benchmark.
+	runtime.ReadMemStats(&mstats)
+	endGCs := mstats.NumGC
+	if endGCs != startGCs {
+		b.Fatalf("%d unaccounted GCs", endGCs-startGCs)
+	}
 }

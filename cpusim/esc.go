@@ -87,8 +87,61 @@ func MarkEscaped(a Pointer) {
 		if ptr != 0 {
 			println("start", unsafe.Pointer(objStart), unsafe.Pointer(addr))
 			println(unsafe.Pointer(ptr), unsafe.Pointer(typ))
-			panic("wtf")
+			panic("expected zeroed memory")
 		}
 		MarkEscaped(Pointer(ptr))
 	}
+}
+
+var MinRegionAddress uintptr
+
+//go:noinline
+//go:nosplit
+func RegionWriteBarrierFastPathReference(ptr, dst unsafe.Pointer) {
+	// The only writes we care about are escapedOrHeap(dst) <- !escapedOrHeap(ptr).
+	if escapedOrHeap(ptr) || !escapedOrHeap(dst) {
+		return
+	}
+	dummyMarkEscaped(ptr)
+}
+
+//go:noinline
+//go:nosplit
+func dummyMarkEscaped(a unsafe.Pointer) {
+}
+
+func escapedOrHeap(ptr unsafe.Pointer) bool {
+	if uintptr(ptr) < MinRegionAddress {
+		return true
+	}
+	// Find the base of the block, where the escaped bitmap lives.
+	base := bitmath.AlignDown(uintptr(ptr), 8192 /* block size */)
+
+	// Find the word index that ptr corresponds to in the block.
+	word := (uintptr(ptr) - base) / 8
+
+	// Load, mask, and check the bit corresponding to the word.
+	return *(*byte)(unsafe.Pointer(base + word/8))&(1<<(word%8)) != 0
+}
+
+//go:noinline
+//go:nosplit
+func RegionWriteBarrierFastPath(ptr, dst unsafe.Pointer) {
+	split := MinRegionAddress
+	if uintptr(ptr) < split {
+		return
+	}
+	if uintptr(dst) >= split {
+		base := uintptr(dst) &^ (8192 - 1)
+		word := (uintptr(dst) - base) / 8
+		if *(*uint64)(unsafe.Pointer(base + word/64))&(1<<(word%64)) == 0 {
+			return
+		}
+	}
+	base := uintptr(ptr) &^ (8192 - 1)
+	word := (uintptr(ptr) - base) / 8
+	if *(*uint64)(unsafe.Pointer(base + word/64))&(1<<(word%64)) != 0 {
+		return
+	}
+	dummyMarkEscaped(ptr)
 }

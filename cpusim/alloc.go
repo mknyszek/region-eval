@@ -122,6 +122,15 @@ func NewBlock(lines uint64) *Block {
 	return blk
 }
 
+func NewBlockFromExisting(lines uint64, data *[BlockSize]byte) *Block {
+	blk := new(Block)
+	blk.data = data
+	d := (*BlockMeta)(unsafe.Pointer(&blk.data[0]))
+	d.LineEscape = lines
+	blk.Reset()
+	return blk
+}
+
 func (b *Block) Contains(ptr Pointer) bool {
 	s := uintptr(unsafe.Pointer(&b.data[0]))
 	e := uintptr(unsafe.Pointer(&b.data[len(b.data)-1]))
