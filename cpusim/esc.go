@@ -127,6 +127,9 @@ func escapedOrHeap(ptr unsafe.Pointer) bool {
 //go:noinline
 //go:nosplit
 func RegionWriteBarrierFastPath(ptr, dst unsafe.Pointer) {
+	if ptr == nil {
+		return
+	}
 	split := MinRegionAddress
 	if uintptr(ptr) < split {
 		return
