@@ -1,0 +1,124 @@
+gc 1 @26.050s 0%: 0.066+0.41+0.008 ms clock, 0.26+0.099/0.18/0.075+0.035 ms cpu, 4->4->3 MB, 4 MB goal, 0 MB stacks, 0 MB globals, 4 P 10372w 2718o 4685920b
+gc 2 @26.051s 0%: 0.013+0.33+0.009 ms clock, 0.054+0.040/0.13/0.14+0.036 ms cpu, 7->7->7 MB, 7 MB goal, 0 MB stacks, 0 MB globals, 4 P 11078w 2901o 8752336b
+gc 3 @27.400s 0%: 0.084+0.40+0.039 ms clock, 0.33+0.37/0.20/0+0.15 ms cpu, 14->14->9 MB, 14 MB goal, 0 MB stacks, 0 MB globals, 4 P 191564w 150465o 14930672b
+gc 4 @30.029s 0%: 0.031+0.24+0.004 ms clock, 0.12+0.24/0.20/0.10+0.017 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 586243w 473978o 24559784b
+gc 5 @31.902s 0%: 0.070+0.48+0.049 ms clock, 0.28+0.23/0.30/0.075+0.19 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 981650w 798330o 34154928b
+gc 6 @34.482s 0%: 0.091+0.33+0.005 ms clock, 0.36+0.30/0.22/0+0.022 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 1374123w 1120284o 43732664b
+gc 7 @36.904s 0%: 0.034+0.34+0.053 ms clock, 0.13+0.33/0.18/0.022+0.21 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 1769322w 1444303o 53356288b
+gc 8 @38.882s 0%: 0.049+0.56+0.045 ms clock, 0.19+0.17/0.25/0.12+0.18 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 2163622w 1767664o 62924496b
+gc 9 @40.942s 0%: 0.066+0.23+0.007 ms clock, 0.26+0.22/0.16/0.020+0.031 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 2557967w 2091074o 72507888b
+gc 10 @42.979s 0%: 0.046+0.27+0.015 ms clock, 0.18+0.31/0.19/0.016+0.062 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 2951669w 2414063o 82069624b
+gc 11 @45.091s 0%: 0.028+0.39+0.040 ms clock, 0.11+0.37/0.20/0+0.16 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 3346203w 2737737o 91659408b
+gc 12 @47.306s 0%: 0.078+0.31+0.091 ms clock, 0.31+0.30/0.20/0+0.36 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 3741353w 3061714o 101266480b
+gc 13 @49.245s 0%: 0.079+0.37+0.057 ms clock, 0.31+0.31/0.20/0+0.22 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 4134524w 3384141o 110813392b
+gc 14 @51.577s 0%: 0.12+0.44+0.008 ms clock, 0.51+0.32/0.17/0+0.034 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 4530264w 3708485o 120441176b
+gc 15 @53.534s 0%: 0.040+0.37+0.073 ms clock, 0.16+0.24/0.23/0.095+0.29 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 4928847w 4035255o 130108432b
+gc 16 @55.548s 0%: 0.10+0.36+0.006 ms clock, 0.43+0.16/0.21/0.18+0.025 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 5315407w 4352331o 139585608b
+gc 17 @57.597s 0%: 0.039+0.30+0.004 ms clock, 0.15+0.27/0.18/0.084+0.018 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 5709456w 4675548o 149169712b
+gc 18 @59.669s 0%: 0.048+0.32+0.012 ms clock, 0.19+0.39/0.19/0+0.049 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 6104878w 4999888o 158777256b
+gc 19 @61.841s 0%: 0.037+0.39+0.037 ms clock, 0.15+0.25/0.23/0.051+0.15 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 6497954w 5322119o 168327768b
+gc 20 @63.839s 0%: 0.037+0.35+0.004 ms clock, 0.15+0.35/0.20/0+0.017 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 6891469w 5644794o 177883784b
+gc 21 @65.769s 0%: 0.086+0.50+0.008 ms clock, 0.34+0.23/0.21/0.11+0.033 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 7287476w 5969558o 187490672b
+gc 22 @67.971s 0%: 0.087+0.30+0.007 ms clock, 0.34+0.36/0.15/0+0.031 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 7682925w 6293911o 197110296b
+gc 23 @69.947s 0%: 0.027+0.23+0.005 ms clock, 0.11+0.22/0.18/0.12+0.020 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 8077216w 6617266o 206685712b
+gc 24 @71.967s 0%: 0.039+0.43+0.041 ms clock, 0.15+0.43/0.19/0+0.16 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 8471549w 6940610o 216260264b
+gc 25 @73.989s 0%: 0.12+0.35+0.005 ms clock, 0.51+0.33/0.20/0+0.020 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 8865365w 7263614o 225824624b
+gc 26 @76.129s 0%: 0.058+0.42+0.008 ms clock, 0.23+0.32/0.16/0+0.033 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 9258674w 7585998o 235388824b
+gc 27 @78.204s 0%: 0.047+0.26+0.004 ms clock, 0.18+0.10/0.20/0.27+0.016 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 9652286w 7908814o 244945344b
+gc 28 @80.182s 0%: 0.029+0.33+0.006 ms clock, 0.11+0.13/0.18/0.19+0.024 ms cpu, 19->19->9 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 10047050w 8232569o 254531288b
+gc 29 @81.861s 0%: 0.032+0.41+0.004 ms clock, 0.13+0.26/0.22/0.14+0.018 ms cpu, 19->19->10 MB, 19 MB goal, 0 MB stacks, 0 MB globals, 4 P 10357689w 8487294o 264096496b
+gc 30 @82.623s 0%: 0.034+0.33+0.013 ms clock, 0.13+0.33/0.18/0+0.052 ms cpu, 20->20->11 MB, 20 MB goal, 0 MB stacks, 0 MB globals, 4 P 10523791w 8623519o 274164056b
+gc 31 @84.160s 0%: 0.11+0.35+0.006 ms clock, 0.44+0.32/0.20/0+0.024 ms cpu, 22->22->12 MB, 22 MB goal, 0 MB stacks, 0 MB globals, 4 P 10813604w 8861153o 285278416b
+gc 32 @86.728s 0%: 0.050+0.32+0.046 ms clock, 0.20+0.32/0.18/0+0.18 ms cpu, 23->23->12 MB, 24 MB goal, 0 MB stacks, 0 MB globals, 4 P 11304477w 9263691o 297197432b
+gc 33 @89.347s 0%: 0.10+0.43+0.027 ms clock, 0.43+0.38/0.21/0.023+0.10 ms cpu, 23->23->12 MB, 24 MB goal, 0 MB stacks, 0 MB globals, 4 P 11796690w 9667401o 309155904b
+gc 34 @91.773s 0%: 0.16+0.46+0.019 ms clock, 0.64+0.42/0.25/0+0.077 ms cpu, 23->23->12 MB, 24 MB goal, 0 MB stacks, 0 MB globals, 4 P 12286969w 10069656o 321061192b
+gc 35 @94.446s 0%: 0.074+0.45+0.079 ms clock, 0.29+0.24/0.20/0.057+0.31 ms cpu, 23->23->12 MB, 24 MB goal, 0 MB stacks, 0 MB globals, 4 P 12777381w 10471872o 332975360b
+gc 36 @96.147s 0%: 0.030+0.42+0.005 ms clock, 0.12+0.22/0.26/0.091+0.020 ms cpu, 24->24->13 MB, 24 MB goal, 0 MB stacks, 0 MB globals, 4 P 13135976w 10765911o 345458424b
+gc 37 @96.853s 0%: 0.026+0.25+0.005 ms clock, 0.10+0.20/0.18/0.13+0.023 ms cpu, 27->27->14 MB, 27 MB goal, 0 MB stacks, 0 MB globals, 4 P 13284843w 10887940o 359161504b
+gc 38 @99.784s 0%: 0.026+0.27+0.006 ms clock, 0.10+0.049/0.18/0.29+0.026 ms cpu, 29->29->15 MB, 29 MB goal, 0 MB stacks, 0 MB globals, 4 P 13828976w 11334176o 373695248b
+gc 39 @102.994s 0%: 0.037+0.42+0.006 ms clock, 0.14+0.30/0.22/0.13+0.027 ms cpu, 29->29->15 MB, 30 MB goal, 0 MB stacks, 0 MB globals, 4 P 14438033w 11833917o 388487520b
+gc 40 @106.094s 0%: 0.042+0.46+0.005 ms clock, 0.17+0.31/0.25/0.027+0.023 ms cpu, 29->29->15 MB, 30 MB goal, 0 MB stacks, 0 MB globals, 4 P 15047503w 12333794o 403288040b
+gc 41 @109.425s 0%: 0.085+0.35+0.005 ms clock, 0.34+0.29/0.22/0+0.020 ms cpu, 29->29->15 MB, 30 MB goal, 0 MB stacks, 0 MB globals, 4 P 15657365w 12834059o 418120128b
+gc 42 @112.424s 0%: 0.035+0.38+0.005 ms clock, 0.14+0.20/0.20/0.086+0.020 ms cpu, 30->30->16 MB, 30 MB goal, 0 MB stacks, 0 MB globals, 4 P 16236273w 13309035o 433764168b
+gc 43 @113.777s 0%: 0.026+0.54+0.006 ms clock, 0.10+0.38/0.35/0+0.027 ms cpu, 33->33->18 MB, 33 MB goal, 0 MB stacks, 0 MB globals, 4 P 16480967w 13509707o 450777736b
+gc 44 @116.536s 0%: 0.025+0.27+0.003 ms clock, 0.10+0.29/0.17/0.055+0.013 ms cpu, 36->36->18 MB, 37 MB goal, 0 MB stacks, 0 MB globals, 4 P 16980760w 13919642o 469258056b
+gc 45 @118.668s 0%: 0.032+1.9+0.005 ms clock, 0.13+0.039/1.8/0.11+0.020 ms cpu, 37->37->27 MB, 37 MB goal, 0 MB stacks, 0 MB globals, 4 P 17388740w 14254217o 488767296b
+gc 46 @118.675s 0%: 0.031+3.3+0.027 ms clock, 0.12+0/3.1/0.077+0.10 ms cpu, 71->71->18 MB, 71 MB goal, 0 MB stacks, 0 MB globals, 4 P 17388799w 14254221o 534568792b
+BenchmarkTile38QueryLoad-16 2000000 555694 ns/op 6132869622 average-RSS-bytes 6362574848 peak-RSS-bytes 7582216192 peak-VM-bytes 227740 p50-latency-ns 649590 p90-latency-ns 5561619 p99-latency-ns 21594 ops/s
+=== Server stdout+stderr ===
+gc 1 @0.005s 2%: 0.017+1.3+0.10 ms clock, 0.20+0.10/1.2/0.52+1.2 ms cpu, 3->4->1 MB, 4 MB goal, 0 MB stacks, 0 MB globals, 12 P 101058w 17793o 3124400b
+
+   _____ _ _     ___ ___
+  |_   _|_| |___|_  | . |  Tile38 1.29.1 (a490f09) 64 bit (amd64/linux)
+    | | | | | -_|_  | . |  Addr: 127.0.0.1, Port: 9851, PID: 2246544
+    |_| |_|_|___|___|___|  tile38.com
+
+2024/07/11 15:25:51 [INFO] Server started, Tile38 version 1.29.1, git a490f09
+gc 2 @0.010s 3%: 0.032+0.90+0.057 ms clock, 0.38+0.12/1.4/0.50+0.69 ms cpu, 3->4->2 MB, 4 MB goal, 0 MB stacks, 0 MB globals, 12 P 118565w 22760o 4200784b
+2024/07/11 15:25:51 [INFO] Ready to accept connections at 127.0.0.1:9851
+gc 3 @0.013s 4%: 0.022+0.69+0.026 ms clock, 0.27+0.45/1.3/0.97+0.31 ms cpu, 5->6->4 MB, 5 MB goal, 0 MB stacks, 0 MB globals, 12 P 125682w 25086o 8184040b
+gc 4 @0.015s 4%: 0.031+0.90+0.069 ms clock, 0.38+0.23/1.3/0.76+0.83 ms cpu, 8->10->6 MB, 9 MB goal, 0 MB stacks, 0 MB globals, 12 P 125835w 25098o 14029928b
+gc 5 @0.017s 5%: 0.043+0.69+0.005 ms clock, 0.51+0/1.4/0.81+0.063 ms cpu, 12->12->6 MB, 13 MB goal, 0 MB stacks, 0 MB globals, 12 P 126040w 25103o 20190408b
+gc 6 @0.021s 5%: 0.034+0.70+0.006 ms clock, 0.41+0.070/1.5/1.6+0.077 ms cpu, 12->12->7 MB, 13 MB goal, 0 MB stacks, 0 MB globals, 12 P 126243w 25114o 29862088b
+gc 7 @0.024s 5%: 0.029+0.67+0.005 ms clock, 0.35+0.089/1.6/1.4+0.065 ms cpu, 13->13->8 MB, 15 MB goal, 0 MB stacks, 0 MB globals, 12 P 126501w 25116o 36595912b
+gc 8 @0.027s 5%: 0.019+0.68+0.009 ms clock, 0.22+0/1.5/1.1+0.11 ms cpu, 16->16->10 MB, 17 MB goal, 0 MB stacks, 0 MB globals, 12 P 126664w 25118o 45017288b
+gc 9 @0.031s 4%: 0.025+1.0+0.007 ms clock, 0.31+0/1.8/1.4+0.084 ms cpu, 19->19->12 MB, 20 MB goal, 0 MB stacks, 0 MB globals, 12 P 126868w 25119o 50284744b
+gc 10 @0.036s 4%: 0.025+0.69+0.004 ms clock, 0.30+0/1.6/1.4+0.056 ms cpu, 23->23->14 MB, 24 MB goal, 0 MB stacks, 0 MB globals, 12 P 127108w 25122o 68724936b
+gc 11 @0.044s 4%: 0.016+1.7+0.006 ms clock, 0.19+0.10/2.6/0.92+0.080 ms cpu, 28->28->17 MB, 29 MB goal, 0 MB stacks, 0 MB globals, 12 P 127362w 25124o 85207240b
+gc 12 @0.057s 3%: 0.025+1.8+0.004 ms clock, 0.30+0/2.8/1.0+0.056 ms cpu, 34->34->20 MB, 34 MB goal, 0 MB stacks, 0 MB globals, 12 P 127624w 25126o 105818312b
+gc 13 @0.076s 3%: 0.015+2.2+0.005 ms clock, 0.18+0/3.1/1.1+0.068 ms cpu, 42->42->25 MB, 42 MB goal, 0 MB stacks, 0 MB globals, 12 P 127926w 25129o 131590440b
+gc 14 @0.105s 2%: 0.025+3.1+0.013 ms clock, 0.30+0.15/4.1/0.35+0.15 ms cpu, 52->52->30 MB, 52 MB goal, 0 MB stacks, 0 MB globals, 12 P 128198w 25132o 163817864b
+gc 15 @0.149s 2%: 0.017+6.5+0.005 ms clock, 0.20+0/7.6/0.68+0.067 ms cpu, 65->65->37 MB, 65 MB goal, 0 MB stacks, 0 MB globals, 12 P 128512w 25134o 204106120b
+gc 16 @0.219s 1%: 0.023+4.4+0.005 ms clock, 0.28+0.11/5.5/0.87+0.062 ms cpu, 80->80->46 MB, 80 MB goal, 0 MB stacks, 0 MB globals, 12 P 128918w 25135o 229288328b
+gc 17 @0.301s 1%: 0.021+2.5+0.037 ms clock, 0.25+0/3.8/1.4+0.44 ms cpu, 93->93->50 MB, 93 MB goal, 0 MB stacks, 0 MB globals, 12 P 129384w 25150o 278563800b
+gc 18 @0.768s 0%: 0.043+0.90+0.030 ms clock, 0.51+0.039/1.9/2.1+0.37 ms cpu, 98->98->59 MB, 100 MB goal, 0 MB stacks, 0 MB globals, 12 P 405382w 285154o 328226136b
+gc 19 @0.968s 0%: 0.054+5.9+0.033 ms clock, 0.65+0.043/15/1.9+0.39 ms cpu, 116->117->53 MB, 118 MB goal, 0 MB stacks, 0 MB globals, 12 P 7208985w 1636917o 387439400b
+gc 20 @1.110s 0%: 0.053+6.2+0.045 ms clock, 0.64+0.24/16/38+0.54 ms cpu, 103->104->68 MB, 106 MB goal, 0 MB stacks, 0 MB globals, 12 P 15402522w 3020381o 440763456b
+gc 21 @1.298s 0%: 0.061+8.0+0.040 ms clock, 0.73+0.41/22/53+0.48 ms cpu, 134->135->88 MB, 137 MB goal, 0 MB stacks, 0 MB globals, 12 P 26181975w 4777752o 509465328b
+gc 22 @1.547s 0%: 0.057+25+0.041 ms clock, 0.69+4.8/44/69+0.49 ms cpu, 172->175->115 MB, 177 MB goal, 0 MB stacks, 0 MB globals, 12 P 41172340w 7078666o 599637200b
+gc 23 @1.885s 0%: 0.061+18+0.054 ms clock, 0.73+0.25/52/126+0.65 ms cpu, 225->227->147 MB, 231 MB goal, 0 MB stacks, 0 MB globals, 12 P 57745439w 10020230o 714664240b
+gc 24 @2.295s 1%: 0.058+29+0.046 ms clock, 0.69+0.12/86/112+0.55 ms cpu, 286->289->190 MB, 295 MB goal, 0 MB stacks, 0 MB globals, 12 P 78751353w 13803237o 860858256b
+gc 25 @2.857s 1%: 0.058+17+0.035 ms clock, 0.69+0.15/52/132+0.42 ms cpu, 368->370->243 MB, 381 MB goal, 0 MB stacks, 0 MB globals, 12 P 110386633w 18587263o 1046067376b
+gc 26 @3.558s 1%: 0.051+40+0.25 ms clock, 0.62+0.13/119/310+3.0 ms cpu, 469->475->316 MB, 486 MB goal, 0 MB stacks, 0 MB globals, 12 P 146355097w 24766017o 1285940568b
+gc 27 @4.450s 1%: 0.065+49+0.045 ms clock, 0.78+2.2/125/300+0.54 ms cpu, 610->615->404 MB, 633 MB goal, 0 MB stacks, 0 MB globals, 12 P 192833204w 32778874o 1594038624b
+gc 28 @5.617s 1%: 0.059+72+0.046 ms clock, 0.71+0.16/215/567+0.55 ms cpu, 780->786->520 MB, 809 MB goal, 0 MB stacks, 0 MB globals, 12 P 242859993w 42967635o 1988141616b
+gc 29 @7.158s 1%: 0.058+85+0.048 ms clock, 0.70+4.9/222/538+0.57 ms cpu, 1003->1017->678 MB, 1041 MB goal, 0 MB stacks, 0 MB globals, 12 P 306953262w 56014846o 2501276008b
+gc 30 @9.067s 1%: 0.058+115+0.049 ms clock, 0.70+0.18/345/769+0.59 ms cpu, 1306->1322->873 MB, 1357 MB goal, 0 MB stacks, 0 MB globals, 12 P 400425449w 73216729o 3165744128b
+gc 31 @11.528s 1%: 0.063+108+0.035 ms clock, 0.75+0.17/323/851+0.42 ms cpu, 1681->1693->1129 MB, 1747 MB goal, 0 MB stacks, 0 MB globals, 12 P 510987436w 93933158o 4012631464b
+gc 32 @14.820s 1%: 0.063+181+0.031 ms clock, 0.76+0.13/542/1433+0.38 ms cpu, 2180->2198->1458 MB, 2260 MB goal, 0 MB stacks, 0 MB globals, 12 P 664555083w 122257735o 5116485320b
+gc 33 @19.188s 1%: 0.064+163+0.047 ms clock, 0.76+0.41/490/1167+0.57 ms cpu, 2813->2832->1879 MB, 2916 MB goal, 0 MB stacks, 0 MB globals, 12 P 864552333w 158321507o 6536160016b
+2024/07/11 15:26:15 [INFO] AOF loaded 11893005 commands: 24.74s, 480816/s, 40 MB/s
+gc 34 @26.044s 1%: 0.20+577+0.17 ms clock, 2.5+1423/1722/185+2.1 ms cpu, 3624->3797->2539 MB, 3759 MB goal, 0 MB stacks, 0 MB globals, 12 P 1126325980w 203906623o 8517113096b
+gc 35 @28.848s 2%: 0.16+885+0.15 ms clock, 1.9+30/2645/273+1.9 ms cpu, 4622->4822->2567 MB, 5079 MB goal, 0 MB stacks, 0 MB globals, 12 P 1238419383w 208031343o 10890001448b
+gc 36 @31.842s 2%: 0.18+826+0.29 ms clock, 2.1+114/2470/626+3.5 ms cpu, 4678->5042->2729 MB, 5135 MB goal, 0 MB stacks, 0 MB globals, 12 P 1360027564w 212476924o 13462368984b
+gc 37 @35.214s 3%: 0.17+899+0.45 ms clock, 2.1+109/2670/455+5.4 ms cpu, 4980->5322->2707 MB, 5460 MB goal, 0 MB stacks, 0 MB globals, 12 P 1487484013w 217148605o 16157282904b
+gc 38 @38.218s 3%: 0.22+558+0.39 ms clock, 2.6+784/1661/777+4.7 ms cpu, 4936->5323->2753 MB, 5416 MB goal, 0 MB stacks, 0 MB globals, 12 P 1615771225w 221826217o 18876772840b
+gc 39 @40.882s 3%: 0.19+685+0.28 ms clock, 2.3+13/2050/1156+3.3 ms cpu, 4689->5218->2892 MB, 5506 MB goal, 0 MB stacks, 0 MB globals, 12 P 1737078796w 226220757o 21439116112b
+gc 40 @43.609s 3%: 0.18+715+0.24 ms clock, 2.2+11/2138/1031+2.9 ms cpu, 4927->5399->2836 MB, 5786 MB goal, 0 MB stacks, 0 MB globals, 12 P 1860229849w 230728314o 24044443616b
+gc 41 @46.496s 4%: 0.16+773+0.35 ms clock, 1.9+13/2316/854+4.2 ms cpu, 4831->5451->2983 MB, 5673 MB goal, 0 MB stacks, 0 MB globals, 12 P 1988648559w 235424114o 26762786296b
+gc 42 @49.425s 4%: 0.17+712+0.15 ms clock, 2.0+2.9/2127/1061+1.8 ms cpu, 5081->5533->2817 MB, 5966 MB goal, 0 MB stacks, 0 MB globals, 12 P 2113901038w 240035582o 29414744416b
+gc 43 @52.284s 4%: 0.35+751+0.14 ms clock, 4.2+60/2248/926+1.7 ms cpu, 4799->5469->3033 MB, 5636 MB goal, 0 MB stacks, 0 MB globals, 12 P 2244357532w 244807534o 32171242808b
+gc 44 @55.308s 4%: 0.20+600+0.18 ms clock, 2.5+0.51/1795/1342+2.1 ms cpu, 5167->5556->2754 MB, 6067 MB goal, 0 MB stacks, 0 MB globals, 12 P 2368001437w 249348766o 34793358624b
+gc 45 @57.844s 4%: 0.24+647+0.039 ms clock, 2.9+26/1940/1144+0.47 ms cpu, 4692->5206->2879 MB, 5510 MB goal, 0 MB stacks, 0 MB globals, 12 P 2488460800w 253751767o 37342606496b
+gc 46 @60.703s 4%: 0.20+628+0.047 ms clock, 2.5+60/1882/1287+0.57 ms cpu, 4904->5371->2832 MB, 5759 MB goal, 0 MB stacks, 0 MB globals, 12 P 2610879389w 258258109o 39933710176b
+gc 47 @63.396s 4%: 0.16+625+0.030 ms clock, 2.0+4.0/1872/1314+0.37 ms cpu, 4824->5307->2847 MB, 5665 MB goal, 0 MB stacks, 0 MB globals, 12 P 2732747803w 262710620o 42506570248b
+gc 48 @66.048s 4%: 0.19+637+0.20 ms clock, 2.3+3.9/1906/1213+2.4 ms cpu, 4849->5355->2870 MB, 5695 MB goal, 0 MB stacks, 0 MB globals, 12 P 2855916235w 267208216o 45114277256b
+gc 49 @68.925s 4%: 0.19+682+0.22 ms clock, 2.3+26/2042/1040+2.6 ms cpu, 4912->5461->2913 MB, 5741 MB goal, 0 MB stacks, 0 MB globals, 12 P 2983158632w 271883464o 47807894720b
+gc 50 @71.672s 4%: 0.18+656+0.052 ms clock, 2.2+2.3/1965/1096+0.62 ms cpu, 4988->5494->2871 MB, 5826 MB goal, 0 MB stacks, 0 MB globals, 12 P 3110280888w 276535592o 50491222856b
+gc 51 @74.502s 4%: 0.20+702+0.23 ms clock, 2.4+8.4/2102/1152+2.8 ms cpu, 4904->5480->2939 MB, 5742 MB goal, 0 MB stacks, 0 MB globals, 12 P 3238495925w 281203662o 53203289472b
+gc 52 @77.384s 4%: 0.17+684+0.59 ms clock, 2.1+7.5/2037/1067+7.1 ms cpu, 5007->5571->2928 MB, 5879 MB goal, 0 MB stacks, 0 MB globals, 12 P 3367878298w 285935582o 55939283944b
+gc 53 @80.332s 4%: 0.18+658+0.12 ms clock, 2.2+4.3/1969/1154+1.5 ms cpu, 4988->5470->2846 MB, 5857 MB goal, 0 MB stacks, 0 MB globals, 12 P 3492679988w 290525778o 58581326512b
+gc 54 @82.930s 4%: 0.19+662+0.19 ms clock, 2.3+3.0/1980/1221+2.3 ms cpu, 4847->5350->2866 MB, 5692 MB goal, 0 MB stacks, 0 MB globals, 12 P 3615723981w 295021799o 61184754944b
+gc 55 @85.679s 4%: 0.18+579+0.20 ms clock, 2.1+12/1732/1384+2.4 ms cpu, 4883->5293->2775 MB, 5734 MB goal, 0 MB stacks, 0 MB globals, 12 P 3735008090w 299406542o 63707178104b
+gc 56 @88.300s 4%: 0.22+636+0.18 ms clock, 2.6+3.8/1903/1303+2.2 ms cpu, 4728->5219->2856 MB, 5552 MB goal, 0 MB stacks, 0 MB globals, 12 P 3854818190w 303826035o 66247143008b
+gc 57 @90.957s 4%: 0.16+759+0.19 ms clock, 1.9+3.2/2272/920+2.2 ms cpu, 4864->5515->3014 MB, 5712 MB goal, 0 MB stacks, 0 MB globals, 12 P 3985154014w 308579305o 69011626344b
+gc 58 @94.037s 5%: 0.22+604+0.24 ms clock, 2.6+10/1806/1367+2.8 ms cpu, 5133->5557->2788 MB, 6028 MB goal, 0 MB stacks, 0 MB globals, 12 P 4109987626w 313150696o 71655080768b
+gc 59 @96.509s 5%: 0.19+648+0.17 ms clock, 2.2+1.2/1938/1223+2.0 ms cpu, 4749->5249->2864 MB, 5577 MB goal, 0 MB stacks, 0 MB globals, 12 P 4230742278w 317584831o 74213700784b
+gc 60 @99.299s 5%: 0.28+682+0.033 ms clock, 3.4+1.1/2044/1152+0.40 ms cpu, 4878->5405->2891 MB, 5728 MB goal, 0 MB stacks, 0 MB globals, 12 P 4355540859w 322173850o 76855812720b
+gc 61 @102.031s 5%: 0.18+633+0.18 ms clock, 2.2+5.1/1894/1245+2.2 ms cpu, 4924->5382->2822 MB, 5783 MB goal, 0 MB stacks, 0 MB globals, 12 P 4477953077w 326637216o 79445114368b
+gc 62 @104.758s 5%: 0.15+742+0.11 ms clock, 1.9+49/2221/973+1.4 ms cpu, 4807->5462->3018 MB, 5645 MB goal, 0 MB stacks, 0 MB globals, 12 P 4607433574w 331362585o 82189266096b
+gc 63 @107.804s 5%: 0.19+751+0.094 ms clock, 2.3+6.0/2249/986+1.1 ms cpu, 5140->5661->2885 MB, 6036 MB goal, 0 MB stacks, 0 MB globals, 12 P 4737154877w 336088320o 84937479608b
+gc 64 @110.702s 5%: 0.14+625+0.15 ms clock, 1.7+2.7/1870/1286+1.8 ms cpu, 4914->5367->2817 MB, 5771 MB goal, 0 MB stacks, 0 MB globals, 12 P 4859032232w 340550087o 87517248736b
+gc 65 @113.454s 5%: 0.29+632+0.029 ms clock, 3.5+52/1893/1319+0.35 ms cpu, 4798->5259->2827 MB, 5634 MB goal, 0 MB stacks, 0 MB globals, 12 P 4979163186w 344933724o 90057813368b
+gc 66 @116.311s 5%: 0.13+754+0.17 ms clock, 1.6+21/2259/968+2.1 ms cpu, 4815->5480->3028 MB, 5655 MB goal, 0 MB stacks, 0 MB globals, 12 P 5109214291w 349690529o 92816457632b
+
