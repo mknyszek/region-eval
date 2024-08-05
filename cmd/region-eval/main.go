@@ -72,13 +72,13 @@ func run() error {
 			w = tw
 		}
 		writeHeader = func() {
-			fmt.Fprintf(w, "Application\tGC CPU%%\tAlloc CPU%%\tScenario\tB_R\tO_R\tB_F\tO_F\tC_R\tP_F\t∆CPU%%\tWB CPU%%\t∆Alloc CPU%%\n")
+			fmt.Fprintf(w, "Application\tGC CPU%%\tAlloc CPU%%\tScenario\tB_R\tO_R\tB_F\tO_F\tB_S\tC_R\tP_F\t∆CPU%%\tWB CPU%%\t∆Alloc CPU%%\n")
 			if format == Text {
-				fmt.Fprintf(w, "-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n")
+				fmt.Fprintf(w, "-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n")
 			}
 		}
 		writeRecord = func(app AppProfile, scenario Scenario, cpuFrac float64) {
-			fmt.Fprintf(w, "%s\t%.2f%%\t%.2f%%\t%s\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%+.2f%%\t%+.2f%%\t%+.2f%%\n",
+			fmt.Fprintf(w, "%s\t%.2f%%\t%.2f%%\t%s\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%+.2f%%\t%+.2f%%\t%+.2f%%\n",
 				app.Name,
 				float64(app.GCCPU)/float64(app.TotalCPU)*100,
 				float64(baseAllocCPU(app.Allocs, app.AllocBytes))/float64(app.TotalCPU)*100,
@@ -87,6 +87,7 @@ func run() error {
 				scenario.RegionAllocsFrac,
 				scenario.FadeAllocBytesFrac,
 				scenario.FadeAllocsFrac,
+				scenario.ScannedRegionAllocBytesFrac,
 				scenario.RegionScanCostRatio,
 				scenario.FadeAllocsPointerDensity,
 				cpuFrac*100,

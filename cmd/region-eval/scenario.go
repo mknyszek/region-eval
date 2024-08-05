@@ -8,44 +8,47 @@ import "time"
 
 var Scenarios = []Scenario{
 	{
-		Name:                     "IdealBroadUse",
-		RegionAllocBytesFrac:     0.6,
-		RegionAllocsFrac:         0.9,
-		FadeAllocBytesFrac:       0.05,
-		FadeAllocsFrac:           0.05,
-		RegionScanCostRatio:      1.05,
-		FadeAllocsPointerDensity: 0.125 / 2,
+		Name:                        "IdealBroadUse",
+		RegionAllocBytesFrac:        0.6,
+		RegionAllocsFrac:            0.9,
+		FadeAllocBytesFrac:          0.05,
+		FadeAllocsFrac:              0.05,
+		ScannedRegionAllocBytesFrac: 0.01,
+		RegionScanCostRatio:         1.05,
+		FadeAllocsPointerDensity:    0.125 / 2,
 	},
 	{
-		Name:                     "BestPossible",
-		RegionAllocBytesFrac:     1.0,
-		RegionAllocsFrac:         1.0,
-		FadeAllocBytesFrac:       0.0,
-		FadeAllocsFrac:           0.0,
-		RegionScanCostRatio:      1.0,
-		FadeAllocsPointerDensity: 0.0,
+		Name:                        "BestPossible",
+		RegionAllocBytesFrac:        1.0,
+		RegionAllocsFrac:            1.0,
+		FadeAllocBytesFrac:          0.0,
+		FadeAllocsFrac:              0.0,
+		ScannedRegionAllocBytesFrac: 0.0,
+		RegionScanCostRatio:         1.0,
+		FadeAllocsPointerDensity:    0.0,
 	},
 	{
-		Name:                     "WorstPossible",
-		RegionAllocBytesFrac:     1.0,
-		RegionAllocsFrac:         1.0,
-		FadeAllocBytesFrac:       1.0,
-		FadeAllocsFrac:           1.0,
-		RegionScanCostRatio:      1.05,
-		FadeAllocsPointerDensity: 0.125,
+		Name:                        "WorstPossible",
+		RegionAllocBytesFrac:        1.0,
+		RegionAllocsFrac:            1.0,
+		FadeAllocBytesFrac:          1.0,
+		FadeAllocsFrac:              1.0,
+		ScannedRegionAllocBytesFrac: 0.0,
+		RegionScanCostRatio:         1.05,
+		FadeAllocsPointerDensity:    0.125,
 	},
 }
 
 type Scenario struct {
-	Name                     string
-	RegionAllocBytesFrac     float64 // Fraction of bytes that are allocated in a region.
-	RegionAllocsFrac         float64 // Fraction of objects that are allocated in a region.
-	FadeAllocBytesFrac       float64 // Fraction of region-allocated bytes that fade.
-	FadeAllocsFrac           float64 // Fraction of region-allocated objects that fade.
-	RegionScanCostRatio      float64 // Ratio of the cost of scanning a region vs. the regular heap.
-	FadeAllocsPointerDensity float64 // Average pointer density of region-allocated objects that fade.
+	Name                        string
+	RegionAllocBytesFrac        float64 // Fraction of bytes that are allocated in a region.
+	RegionAllocsFrac            float64 // Fraction of objects that are allocated in a region.
+	FadeAllocBytesFrac          float64 // Fraction of region-allocated bytes that fade.
+	FadeAllocsFrac              float64 // Fraction of region-allocated objects that fade.
+	ScannedRegionAllocBytesFrac float64 // Fraction of region-allocated bytes that are scanned by the GC.
+	RegionScanCostRatio         float64 // Ratio of the cost of scanning a region vs. the regular heap.
+	FadeAllocsPointerDensity    float64 // Average pointer density of region-allocated objects that fade.
 
-	scannedRegionAllocBytesFrac float64 // Fraction of region-allocated bytes that are scanned by the GC.
 }
 
 func deltaCPUFrac(prof AppProfile, scenario Scenario) float64 {
@@ -55,16 +58,13 @@ func deltaCPUFrac(prof AppProfile, scenario Scenario) float64 {
 func deltaCPU(prof AppProfile, scenario Scenario) time.Duration {
 	var d time.Duration
 
-	// Model how much region memory will be visible to scanning.
-	scenario.scannedRegionAllocBytesFrac = ((1 - scenario.RegionAllocBytesFrac) + scenario.FadeAllocBytesFrac) * (1 - scenario.FadeAllocBytesFrac)
-
 	// Change in alloc costs.
 	d += deltaAllocCPU(prof, scenario)
 
 	// Reduced GC cost.
 	d += time.Duration(float64(prof.GCCPU) * (1 - scenario.RegionAllocBytesFrac))
 	// GC cost of scanning region memory.
-	d += time.Duration(float64(prof.GCCPU) * scenario.RegionAllocBytesFrac * (scenario.FadeAllocBytesFrac + scenario.scannedRegionAllocBytesFrac) * scenario.RegionScanCostRatio)
+	d += time.Duration(float64(prof.GCCPU) * scenario.RegionAllocBytesFrac * (scenario.FadeAllocBytesFrac + scenario.ScannedRegionAllocBytesFrac) * scenario.RegionScanCostRatio)
 	// Subtract original full base GC cost.
 	d -= prof.GCCPU
 
