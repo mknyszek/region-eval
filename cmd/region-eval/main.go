@@ -141,6 +141,17 @@ type varyVar struct {
 
 func (vp *VaryProgram) Vary(scenario Scenario) iter.Seq[Scenario] {
 	return func(yield func(Scenario) bool) {
+		if vp.steps == 0 {
+			return
+		}
+		if vp.steps == 1 {
+			for _, v := range vp.vars {
+				p := v.extract(&scenario)
+				*p = v.lo + (v.hi-v.lo)/2
+			}
+			yield(scenario)
+			return
+		}
 		for i := 0; i < vp.steps; i++ {
 			for _, v := range vp.vars {
 				p := v.extract(&scenario)
