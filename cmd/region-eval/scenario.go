@@ -69,7 +69,7 @@ func deltaCPU(prof AppProfile, scenario Scenario) time.Duration {
 	d -= prof.GCCPU
 
 	// New write barrier (overestimate).
-	d += wbTestCPU(prof.PointerWrites)
+	d += wbTestCPU(scenario.RegionAllocsFrac, prof.PointerWrites)
 
 	// Fade cost.
 	d += fadeCPU(
@@ -105,8 +105,8 @@ func baseAllocCPU(o, b uint64) time.Duration {
 	return time.Duration(20*float64(o) + 0.08*float64(b))
 }
 
-func wbTestCPU(writes uint64) time.Duration {
-	return time.Duration(4.5 * float64(writes))
+func wbTestCPU(enabledFrac float64, writes uint64) time.Duration {
+	return time.Duration(4.5 * enabledFrac * float64(writes))
 }
 
 func fadeCPU(o, p uint64) time.Duration {

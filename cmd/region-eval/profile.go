@@ -17,7 +17,7 @@ type AppProfile struct {
 
 var AppProfiles = []AppProfile{
 	{
-		Name:          "Tile38Bench",
+		Name:          "Tile38",
 		TotalCPU:      time.Duration(1055.508 * 1e9),
 		GCCPU:         time.Duration(106033 * 1e6),
 		Allocs:        145783906,
@@ -25,7 +25,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 3982888311,
 	},
 	{
-		Name:          "EtcdPutBench",
+		Name:          "etcd Put",
 		TotalCPU:      time.Duration(4.683 * 4 * 1e9),
 		GCCPU:         time.Duration(310.651 * 1e6),
 		Allocs:        8838440,
@@ -33,7 +33,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 38108457,
 	},
 	{
-		Name:          "EtcdSTMBench",
+		Name:          "etcd STM",
 		TotalCPU:      time.Duration(13.303 * 4 * 1e9),
 		GCCPU:         time.Duration(4677.1 * 1e6),
 		Allocs:        51522979,
@@ -41,7 +41,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 446980825,
 	},
 	{
-		Name:          "CockroachDBSingleNode/kv0/GOGC=300",
+		Name:          "CockroachDB 300 kv0",
 		TotalCPU:      time.Duration(87.029 * 8 * 1e9),
 		GCCPU:         time.Duration(24808.369 * 1e6),
 		Allocs:        428559454,
@@ -49,7 +49,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 5961213414,
 	},
 	{
-		Name:          "CockroachDBSingleNode/kv50/GOGC=300",
+		Name:          "CockroachDB 300 kv50",
 		TotalCPU:      time.Duration(97.484 * 8 * 1e9),
 		GCCPU:         time.Duration(26663.114 * 1e6),
 		Allocs:        967379582,
@@ -57,7 +57,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 6446345731,
 	},
 	{
-		Name:          "CockroachDBSingleNode/kv95/GOGC=300",
+		Name:          "CockroachDB 300 kv95",
 		TotalCPU:      time.Duration(82.688 * 8 * 1e9),
 		GCCPU:         time.Duration(20728.359 * 1e6),
 		Allocs:        368300343,
@@ -65,7 +65,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 5636509516,
 	},
 	{
-		Name:          "CockroachDBSingleNode/kv0/GOGC=100",
+		Name:          "CockroachDB 100 kv0",
 		TotalCPU:      time.Duration(103.433 * 8 * 1e9),
 		GCCPU:         time.Duration(89548.573 * 1e6),
 		Allocs:        1106189051,
@@ -73,7 +73,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 5669424874,
 	},
 	{
-		Name:          "CockroachDBSingleNode/kv50/GOGC=100",
+		Name:          "CockroachDB 100 kv50",
 		TotalCPU:      time.Duration(102.625 * 8 * 1e9),
 		GCCPU:         time.Duration(80561.78 * 1e6),
 		Allocs:        1052674597,
@@ -81,7 +81,7 @@ var AppProfiles = []AppProfile{
 		PointerWrites: 5709550463,
 	},
 	{
-		Name:          "CockroachDBSingleNode/kv95/GOGC=100",
+		Name:          "CockroachDB 100 kv95",
 		TotalCPU:      time.Duration(123.101 * 8 * 1e9),
 		GCCPU:         time.Duration(101636.461 * 1e6),
 		Allocs:        1958662837,

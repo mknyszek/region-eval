@@ -78,7 +78,7 @@ func run() error {
 			}
 		}
 		writeRecord = func(app AppProfile, scenario Scenario, cpuFrac float64) {
-			fmt.Fprintf(w, "%s\t%.2f%%\t%.2f%%\t%s\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%+.2f%%\t%+.2f%%\t%+.2f%%\n",
+			fmt.Fprintf(w, "%s\t%.2f%%\t%.2f%%\t%s\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%.3f\t%+.2f%%\t%+.2f%%\t %+.2f%%\n",
 				app.Name,
 				float64(app.GCCPU)/float64(app.TotalCPU)*100,
 				float64(baseAllocCPU(app.Allocs, app.AllocBytes))/float64(app.TotalCPU)*100,
@@ -91,7 +91,7 @@ func run() error {
 				scenario.RegionScanCostRatio,
 				scenario.FadeAllocsPointerDensity,
 				cpuFrac*100,
-				float64(wbTestCPU(app.PointerWrites))/float64(app.TotalCPU)*100,
+				float64(wbTestCPU(scenario.RegionAllocsFrac, app.PointerWrites))/float64(app.TotalCPU)*100,
 				float64(deltaAllocCPU(app, scenario))/float64(app.TotalCPU)*100,
 			)
 		}
@@ -178,6 +178,9 @@ var param2Extractor = map[string]func(*Scenario) *float64{
 	},
 	"O_F": func(s *Scenario) *float64 {
 		return &s.FadeAllocsFrac
+	},
+	"B_S": func(s *Scenario) *float64 {
+		return &s.ScannedRegionAllocBytesFrac
 	},
 	"C_R": func(s *Scenario) *float64 {
 		return &s.RegionScanCostRatio
