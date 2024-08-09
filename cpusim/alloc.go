@@ -122,11 +122,12 @@ func NewBlock(lines uint64) *Block {
 	return blk
 }
 
-func NewBlockFromExisting(lines uint64, data *[BlockSize]byte) *Block {
+func NewBlockFromExisting(lines uint64, region uintptr, data *[BlockSize]byte) *Block {
 	blk := new(Block)
 	blk.data = data
 	d := (*BlockMeta)(unsafe.Pointer(&blk.data[0]))
 	d.LineEscape = lines
+	d.Region = region
 	blk.Reset()
 	return blk
 }
@@ -186,7 +187,7 @@ func (b *Block) refill() bool {
 	b.cursor = uintptr(unsafe.Pointer(b.data)) + uintptr(i)*lineSize
 	b.limit = b.cursor + uintptr(n)*lineSize
 	if i == 2 {
-		b.cursor += 8 // Room for LineEscape.
+		b.cursor += 16 // Room for LineEscape and Region.
 	}
 	return true
 }
@@ -227,6 +228,7 @@ type BlockMeta struct {
 	EscBits    [BitmapSize / 8]uint64
 	ObjBits    [BitmapSize / 8]uint64
 	LineEscape uint64
+	Region     uintptr
 }
 
 //go:linkname memclrNoHeapPointers runtime.memclrNoHeapPointers

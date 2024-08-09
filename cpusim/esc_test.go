@@ -215,15 +215,21 @@ func BenchmarkWriteBarrier(b *testing.B) {
 func benchWriteBarrier(b *testing.B, preEscPercent int, shuffle bool) {
 	cs := perfbench.Open(b)
 
-	data, err := syscall.Mmap(-1, 0, int(1<<30), syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_ANON|syscall.MAP_PRIVATE)
+	dataSize := 1 << 30
+	data, err := syscall.Mmap(-1, 0, dataSize, syscall.PROT_READ|syscall.PROT_WRITE, syscall.MAP_ANON|syscall.MAP_PRIVATE)
 	if err != nil {
 		b.Fatal(err)
 	}
 	addr := uintptr(unsafe.Pointer(&data[0]))
-	cpusim.MinRegionAddress = addr
+	for i := addr; i < addr+uintptr(dataSize)+cpusim.HeapArenaBytes; i += cpusim.HeapArenaBytes {
+		arenaIdx := i / cpusim.HeapArenaBytes
+		cpusim.IsRegionArena[arenaIdx/64] |= uint64(1) << (arenaIdx % 64)
+	}
 	defer func() {
 		syscall.Munmap(data)
-		cpusim.MinRegionAddress = 0
+		for i := range cpusim.IsRegionArena {
+			cpusim.IsRegionArena[i] = 0
+		}
 	}()
 
 	// The cpusim code assumes BlockSize-aligned memory, but mmap may not return memory with sufficient alignment.
@@ -240,7 +246,7 @@ func benchWriteBarrier(b *testing.B, preEscPercent int, shuffle bool) {
 		if len(alignedData[i:]) < cpusim.BlockSize {
 			break
 		}
-		blocks = append(blocks, cpusim.NewBlockFromExisting(0, (*[cpusim.BlockSize]byte)(alignedData[i:i+cpusim.BlockSize])))
+		blocks = append(blocks, cpusim.NewBlockFromExisting(0, 0, (*[cpusim.BlockSize]byte)(alignedData[i:i+cpusim.BlockSize])))
 	}
 
 	const fp = 64 << 10
