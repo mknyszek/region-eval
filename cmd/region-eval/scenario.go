@@ -106,7 +106,7 @@ func baseAllocCPU(o, b uint64) time.Duration {
 }
 
 func wbTestCPU(enabledFrac float64, writes uint64) time.Duration {
-	return time.Duration(4.5 * enabledFrac * float64(writes))
+	return time.Duration(5.2 * enabledFrac * float64(writes))
 }
 
 func fadeCPU(o, p uint64) time.Duration {
